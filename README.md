@@ -2,7 +2,7 @@
 
 # ⚖️ LOGOS — Agente Legal Inteligente
 
-¡Asistente legal local de alto rendimiento para la **auditoría de riesgos**, **redacción jurídica** y **gestión documental** en el derecho español!
+Asistente legal local para la **auditoría de riesgos**, **redacción jurídica** y **gestión documental** en el derecho español
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![LangGraph](https://img.shields.io/badge/Orquestación-LangGraph-FF6F00?style=for-the-badge&logo=langchain&logoColor=white)](https://www.langchain.com/)
