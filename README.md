@@ -19,9 +19,9 @@
 
 * 🤖 **Flujo Multi-Agente Autónomo:** Arquitectura basada en grafos direccionados (LangGraph) con enrutamiento inteligente entre nodos especializados (Auditoría, Redacción, Consultas Generales y modo Conversacional).
 * 🔍 **RAG Híbrido Avanzado con Rerank:** Combinación de recuperación vectorial en ChromaDB y búsqueda léxica BM25, afinada mediante un modelo Cross-Encoder para garantizar la precisión estricta de plazos y artículos normativos sin contaminación cruzada entre jurisdicciones.
-* 📜 **Rigor Legislativo Español:** Respuestas orientadas a la precisión dogmática y jurisprudencial con citación explícita de artículos y normativa vigente (Civil, Penal, Laboral, Mercantil, Extranjería y Administrativo).
-* 📄 **Procesamiento Multiformato:** Lectura y extracción directa de datos a partir de archivos `.pdf`, `.docx`, `.rtf`, `.txt` y `.md`.
-* 🛡️ **Filtros de Seguridad Extrajudicial:** Mecanismos de purga programática en el nodo verificador para evitar terminología judicial inadecuada (como "suplico") en comunicaciones extrajudiciales (burofaxes o requerimientos).
+* 📜 **Rigor Legislativo Español:** Respuestas orientadas a la precisión dogmática y jurisprudencial con citación explícita de artículos y normativa vigente.
+* 📄 **Procesamiento Multiformato:** Lectura y extracción directa de datos a partir de archivos `.pdf`, `.docx`, `.rtf`, `.txt` y `.md` mediante gestores dedicados.
+* 🛡️ **Filtros de Seguridad Extrajudicial:** Mecanismos de purga programática en el nodo verificador para evitar terminología judicial inadecuada (como "suplico") en comunicaciones extrajudiciales.
 * 🔒 **Privacy-First & RGPD Compliance:** Ejecución 100% local sobre Ollama sin envío de datos a servidores externos, garantizando la máxima confidencialidad.
 
 ---
@@ -53,10 +53,10 @@
 git clone [https://github.com/tu-usuario/LOGOS-Agente-Legal-IA.git](https://github.com/tu-usuario/LOGOS-Agente-Legal-IA.git)
 cd LOGOS-Agente-Legal-IA
 ```
-
 ### 3. Configurar el Entorno Virtual e Instalar Dependencias
 
 ```bash
+Bash
 python -m venv venv
 # En Windows:
 venv\Scripts\activate
@@ -65,7 +65,6 @@ source venv/bin/activate
 
 pip install -r requirements.txt
 ```
-
 ### 4. Configurar Modelos en Ollama
 Asegúrate de descargar el modelo de lenguaje y el de embeddings configurados en el proyecto:
 
@@ -74,16 +73,16 @@ Bash
 ollama pull qwen2.5:14b-instruct
 ollama pull nomic-embed-text
 ```
-
 ### 5. Ejecutar la Aplicación
+
 ```bash
 Bash
 streamlit run app.py
 ```
-
-### 6. Estructura del Proyecto
+### 📂 Estructura del Proyecto
 
 ```bash
+
 LOGOS-Agente-Legal-IA/
 │
 ├── data/
@@ -109,4 +108,3 @@ LOGOS-Agente-Legal-IA/
 ├── requirements.txt    # Dependencias del proyecto
 └── README.md           # Documentación del repositorio
 ```
-
