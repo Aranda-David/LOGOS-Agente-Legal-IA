@@ -1,0 +1,63 @@
+====================================================================
+COMPENDIO DE DOCTRINA JURISPRUDENCIAL Y CRITERIOS DEL TRIBUNAL SUPREMO
+====================================================================
+
+--- BLOQUE 1: DERECHO PENAL Y PROCESAL PENAL ---
+
+TRIBUNAL SUPREMO - SALA SEGUNDA (LO PENAL)
+Sentencia: STS 800/2021, de 22 de octubre | STS 1010/2020
+Materia: Delito de Allanamiento de Morada (Art. 202 CP) vs. Usurpación (Art. 245 CP)
+DOCTRINA:
+El concepto constitucional de morada (art. 18.2 CE) comprende tanto la vivienda habitual como las segundas residencias, viviendas de vacaciones o de fin de semana, siempre que se conserve el uso reservado a la intimidad personal o familiar. La entrada o permanencia sin autorización en una segunda residencia constituye delito de ALLANAMIENTO DE MORADA del art. 202 del Código Penal (pena de prisión de 6 meses a 2 años), y no un mero delito leve de usurpación.
+MEDIDAS CAUTELARES Y DESALOJO:
+Conforme a la Instrucción 6/2020 de la Fiscalía General del Estado y el art. 13 de la LECrim, ante una ocupación de morada procede la adopción inmediata de la medida cautelarísima de desalojo y restitución de la posesión por las Fuerzas y Cuerpos de Seguridad sin necesidad de esperar a la finalización del procedimiento judicial.
+
+TRIBUNAL SUPREMO - SALA SEGUNDA (LO PENAL)
+Sentencia: STS 300/2015, de 19 de mayo
+Materia: Prueba digital, mensajes de WhatsApp, redes sociales y correos electrónicos
+DOCTRINA:
+La prueba de una comunicación bidireccional mediante sistemas de mensajería instantánea (WhatsApp, Telegram, email) debe ser abordada con cautela debido a la posibilidad de manipulación. Si la prueba digital es impugnada de falso o manipulada por la contraparte, es imprescindible la práctica de una prueba pericial informática o el cotejo directo del dispositivo por parte del Letrado de la Administración de Justicia (LAJ) para acreditar la autenticidad y cadena de custodia.
+
+--- BLOQUE 2: DERECHO CIVIL, ARRENDAMIENTOS Y BANCARIO ---
+
+TRIBUNAL SUPREMO - SALA PRIMERA (LO CIVIL)
+Sentencia: STS 241/2013, de 9 de mayo (Pleno) | STS 457/2020
+Materia: Cláusulas suelo, gastos de hipoteca y transparencia contractual
+DOCTRINA:
+Las cláusulas suelo incorporadas a contratos de préstamo hipotecario con consumidores deben superar no solo el control de inclusión, sino un estricto control de transparencia cualificada. La falta de transparencia conlleva la nulidad de pleno derecho de la cláusula por abusiva (art. 83 TRLGDCU), con la consiguiente obligación de restituir la totalidad de las cantidades indebidamente cobradas desde la firma del contrato.
+GASTOS HIPOTECARIOS:
+Tras la nulidad de la cláusula de gastos, procede la restitución al consumidor del 100% de los gastos de Registro de la Propiedad, gestoría y tasación, y del 50% de los gastos de notaría.
+
+TRIBUNAL SUPREMO - SALA PRIMERA (LO CIVIL)
+Sentencia: STS 149/2020, de 4 de marzo | STS 643/2022
+Materia: Tarjetas Revolving, crédito al consumo y Usura (Ley de Azcárate de 1908)
+DOCTRINA:
+Para determinar si la TAE de una tarjeta de crédito o contrato 'revolving' es usuraria conforme al art. 1 de la Ley de Represión de la Usura de 1908, debe compararse la TAE fijada en el contrato con la tasa media ponderada de las operaciones de crédito al consumo publicadas por el Banco de España para la categoría específica. Se considera interés notablemente superior y usurario si supera en más de 6 puntos porcentuales el tipo medio habitual de las tarjetas revolving. La declaración de usura conlleva la nulidad del contrato, teniendo el prestatario la obligación de devolver únicamente el capital dispuesto sin intereses ni comisiones.
+
+TRIBUNAL SUPREMO - SALA PRIMERA (LO CIVIL)
+Sentencia: STS 502/2021
+Materia: Ocupación sin título, precario y acción desahucio
+DOCTRINA:
+El precario es una situación de hecho que implica el disfrute de un bien ajeno sin pagar merced y sin título que justifique la posesión (ya sea por cesión inicial concedida por benevolencia o tolerancia del dueño, o por pérdida posterior de la vigencia del título). El legítimo propietario o poseedor real está facultado para ejercitar la acción de desahucio por precario en la vía civil para recuperar la posesión.
+
+--- BLOQUE 3: DERECHO ADMINISTRATIVO Y PROTECCIÓN DE DATOS ---
+
+TRIBUNAL SUPREMO - SALA TERCERA (LO CONTENCIOSO-ADMINISTRATIVO) Y AEPD
+Sentencia: STS 1210/2022 | Criterios Art. 83 RGPD y LOPDGDD
+Materia: Procedimiento sancionador administrativo y multas de la AEPD
+DOCTRINA:
+Las sanciones en materia de protección de datos deben respetar de forma estricta los principios de legalidad, tipicidad y proporcionalidad (art. 29 Ley 40/2015). En los procedimientos sancionadores incoados por la Agencia Española de Protección de Datos (AEPD), el incumplimiento de los plazos máximos de resolución (art. 95 Ley 39/2015) produce la caducidad del procedimiento y el archivo de las actuaciones, sin perjuicio de la prescripción de la infracción.
+
+--- BLOQUE 4: DERECHO DEL TRABAJO Y SEGURIDAD SOCIAL ---
+
+TRIBUNAL SUPREMO - SALA CUARTA (DE LO SOCIAL)
+Sentencia: STS 101/2021 | STS 842/2022
+Materia: Calificación del Despido (Improcedente vs. Nulo) y Vulneración de Derechos Fundamentales
+DOCTRINA:
+El despido acordado sin causa legal justificada será calificado como IMPROCEDENTE (art. 56 ET), con la consiguiente opción empresarial entre la indemnización de 33 días por año trabajado o la readmisión. Sin embargo, si el despido se produce con vulneración de derechos fundamentales o libertades públicas (art. 55.5 ET y art. 181 LRJS) —incluyendo la garantía de indemnidad por reclamaciones previas del trabajador—, la calificación será de NULIDAD DE PLENO DERECHO, con readmisión obligatoria, abono de salarios de tramitación e indemnización adicional por daños morales.
+
+TRIBUNAL SUPREMO - SALA CUARTA (DE LO SOCIAL)
+Sentencia: STS 450/2020 | Criterios Art. 20.3 ET
+Materia: Control empresarial, geolocalización, uso del ordenador de empresa y prueba en el proceso laboral
+DOCTRINA:
+El empresario puede adoptar las medidas de vigilancia y control que estime más oportunas para verificar el cumplimiento de las obligaciones laborales (art. 20.3 ET), respetando la dignidad del trabajador. Para que las pruebas obtenidas mediante control informático o cámaras sean válidas en un juicio de despido, la empresa debe haber informado previamente de forma clara a los trabajadores sobre la existencia de los medios de control y la prohibición de uso personal de los dispositivos.

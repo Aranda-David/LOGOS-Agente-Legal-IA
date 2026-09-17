@@ -1,13 +1,14 @@
 import io
 import html
+import requests
 import streamlit as st
-from pypdf import PdfReader
 from docx import Document
-from striprtf.striprtf import rtf_to_text
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 
+# Importamos el extractor modular y el grafo
+from src.document_loader import cargar_texto_desde_archivo
 from src.graph import app_grafo
 
 # Configuración de la página
@@ -18,46 +19,23 @@ st.set_page_config(
 )
 
 
-# --- FUNCIÓN DE EXTRACCIÓN MULTIFORMATO ---
-def extraer_texto_documento(archivo) -> str:
-    """Extrae texto de archivos PDF, DOCX, RTF, TXT y MD."""
-    nombre = archivo.name.lower()
-    texto = ""
-
+# --- FUNCIONES DE UTILIDAD Y COMPROBACIÓN ---
+def comprobar_estado_sistema():
+    """Comprueba si el servidor local de Ollama está accesible."""
     try:
-        if nombre.endswith(".pdf"):
-            reader = PdfReader(archivo)
-            for page in reader.pages:
-                texto += page.extract_text() or ""
-
-        elif nombre.endswith(".docx"):
-            doc = Document(archivo)
-            texto = "\n".join([para.text for para in doc.paragraphs if para.text.strip()])
-
-        elif nombre.endswith(".rtf"):
-            contenido_rtf = archivo.read().decode("utf-8", errors="ignore")
-            texto = rtf_to_text(contenido_rtf)
-
-        elif nombre.endswith((".txt", ".md")):
-            texto = archivo.read().decode("utf-8", errors="ignore")
-
-        elif nombre.endswith(".doc"):
-            st.warning(
-                "⚠️ Los archivos .doc antiguos no son directamente compatibles. Por favor, guárdalo como .docx en Word antes de adjuntarlo.")
-            return ""
-
-    except Exception as e:
-        st.error(f"Error al procesar el archivo {archivo.name}: {str(e)}")
-        return ""
-
-    return texto.strip()
+        response = requests.get("http://localhost:11434/api/tags", timeout=2)
+        if response.status_code == 200:
+            return True
+    except Exception:
+        pass
+    return False
 
 
 # --- FUNCIÓN PARA GENERAR DOCUMENTO WORD (.DOCX) ---
-def crear_documento_word(texto_dictamen: str) -> io.BytesIO:
-    """Genera un archivo .docx en memoria a partir del texto del dictamen."""
+def crear_documento_word(texto_dictamen: str, titulo: str = "LOGOS — Dictamen / Documento Jurídico") -> io.BytesIO:
+    """Genera un archivo .docx en memoria a partir del texto."""
     doc = Document()
-    doc.add_heading("LOGOS — Dictamen / Documento Jurídico", level=1)
+    doc.add_heading(titulo, level=1)
 
     for line in texto_dictamen.split("\n"):
         if line.strip():
@@ -70,8 +48,8 @@ def crear_documento_word(texto_dictamen: str) -> io.BytesIO:
 
 
 # --- FUNCIÓN PARA GENERAR DOCUMENTO PDF (.PDF) ---
-def crear_documento_pdf(texto_dictamen: str) -> io.BytesIO:
-    """Genera un archivo PDF profesional en memoria a partir del texto del dictamen."""
+def crear_documento_pdf(texto_dictamen: str, titulo: str = "LOGOS — Dictamen / Documento Jurídico") -> io.BytesIO:
+    """Genera un archivo PDF profesional en memoria a partir del texto."""
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(
         buffer,
@@ -99,12 +77,9 @@ def crear_documento_pdf(texto_dictamen: str) -> io.BytesIO:
     )
 
     story = []
-
-    # Título principal
-    story.append(Paragraph("LOGOS — Dictamen / Documento Jurídico", estilo_titulo))
+    story.append(Paragraph(titulo, estilo_titulo))
     story.append(Spacer(1, 12))
 
-    # Párrafos del texto (escapando caracteres HTML para evitar errores de sintaxis en ReportLab)
     for linea in texto_dictamen.split("\n"):
         linea_limpia = linea.strip()
         if linea_limpia:
@@ -128,9 +103,24 @@ with st.sidebar:
     st.header("⚙️ Panel de Control")
     st.write("Configura la sesión o adjunta documentación.")
 
+    # 1. Indicador de estado de Ollama en tiempo real
+    ollama_activo = comprobar_estado_sistema()
+    if ollama_activo:
+        st.markdown("🟢 **Motor Local (Ollama):** En línea")
+    else:
+        st.markdown("🔴 **Motor Local (Ollama):** Desconectado")
+
+    st.divider()
+
     modo_analisis = st.selectbox(
         "Modo de trabajo preferido:",
         ["Enrutado Automático (IA)", "Auditoría de Riesgos", "Redacción Jurídica", "Consulta General"]
+    )
+
+    # 3. Selector manual de Jurisdicción opcional
+    jurisdiccion_manual = st.selectbox(
+        "Forzar Jurisdicción (Opcional):",
+        ["Automática (IA)", "Penal", "Civil", "Laboral", "Mercantil", "Administrativo"]
     )
 
     st.divider()
@@ -143,11 +133,36 @@ with st.sidebar:
 
     texto_documento_extraido = ""
     if archivo_adjunto is not None:
-        texto_documento_extraido = extraer_texto_documento(archivo_adjunto)
+        texto_documento_extraido = cargar_texto_desde_archivo(archivo_adjunto)
         if texto_documento_extraido:
             st.success(f"✅ '{archivo_adjunto.name}' procesado correctamente.")
+        else:
+            st.error("⚠️ No se pudo extraer texto del archivo adjunto.")
 
     st.divider()
+
+    # Inicializar historial si no existe para el bloque lateral de exportación
+    if "mensajes" not in st.session_state:
+        st.session_state.mensajes = []
+
+    # 2. Exportación de sesión completa en la barra lateral si hay mensajes
+    if st.session_state.mensajes:
+        st.subheader("📦 Archivar Sesión")
+        texto_historial_completo = "\n\n".join(
+            [f"[{m['rol'].upper()}]: {m['contenido']}" for m in st.session_state.mensajes])
+
+        col_exp1, col_exp2 = st.columns(2)
+        with col_exp1:
+            buf_w_sesion = crear_documento_word(texto_historial_completo, "LOGOS — Historial de Sesión")
+            st.download_button("📥 Word", data=buf_w_sesion, file_name="Sesion_LOGOS.docx",
+                               mime="application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                               key="dl_sesion_w")
+        with col_exp2:
+            buf_p_sesion = crear_documento_pdf(texto_historial_completo, "LOGOS — Historial de Sesión")
+            st.download_button("📄 PDF", data=buf_p_sesion, file_name="Sesion_LOGOS.pdf", mime="application/pdf",
+                               key="dl_sesion_p")
+
+        st.divider()
 
     if st.button("🗑️ Limpiar Conversación"):
         st.session_state.mensajes = []
@@ -157,15 +172,17 @@ st.divider()
 
 # --- CHAT PRINCIPAL ---
 
-if "mensajes" not in st.session_state:
-    st.session_state.mensajes = []
-
-# Mostrar historial con botones de descarga para respuestas de LOGOS
+# Mostrar historial con contexto RAG opcional y botones de descarga condicionales
 for i, msg in enumerate(st.session_state.mensajes):
     with st.chat_message(msg["rol"]):
         st.markdown(msg["contenido"])
 
-        if msg["rol"] == "assistant":
+        if msg.get("contexto_rag") and not msg.get("es_conversacional", False):
+            with st.expander("🔍 Ver Contexto RAG Recuperado"):
+                st.markdown(msg["contexto_rag"])
+
+        # Renderizar botones de descarga SOLO si NO es un mensaje conversacional
+        if msg["rol"] == "assistant" and not msg.get("es_conversacional", False):
             col1, col2, _ = st.columns([1, 1, 3])
             with col1:
                 buffer_word = crear_documento_word(msg["contenido"])
@@ -189,36 +206,69 @@ for i, msg in enumerate(st.session_state.mensajes):
 # Entrada del usuario
 if peticion := st.chat_input("Escribe tu instrucción legal aquí..."):
 
-    peticion_completa = peticion
-    if texto_documento_extraido:
-        peticion_completa = (
-            f"{peticion}\n\n"
-            f"--- TEXTO EXTRAÍDO DEL DOCUMENTO ADJUNTO ({archivo_adjunto.name}) ---\n"
-            f"{texto_documento_extraido}"
-        )
-
     st.session_state.mensajes.append({"rol": "user", "contenido": peticion})
     with st.chat_message("user"):
         st.markdown(peticion)
 
     with st.chat_message("assistant"):
-        with st.spinner("LOGOS está analizando la documentación y la legislación aplicable..."):
-            estado_inicial = {
-                "peticion_usuario": peticion_completa,
-                "tipo_tarea": "",
-                "historial_mensajes": [],
-                "respuesta_final": ""
-            }
+        # Estado estructurado inicial compatible con el grafo
+        estado_inicial = {
+            "peticion_usuario": peticion,
+            "texto_documento": texto_documento_extraido if texto_documento_extraido else None,
+            "tipo_tarea": None,
+            "jurisdicciones": [],
+            "contexto_rag": None,
+            "borrador_respuesta": None,
+            "respuesta_final": None
+        }
 
-            resultado = app_grafo.invoke(estado_inicial)
-            respuesta = resultado["respuesta_final"]
+        # Forzar el modo de análisis si no está en automático
+        if modo_analisis == "Auditoría de Riesgos":
+            estado_inicial["tipo_tarea"] = "auditoria"
+        elif modo_analisis == "Redacción Jurídica":
+            estado_inicial["tipo_tarea"] = "redaccion"
+        elif modo_analisis == "Consulta General":
+            estado_inicial["tipo_tarea"] = "general"
 
-            st.markdown(respuesta)
+        # Forzar jurisdicción manual si se ha seleccionado en el panel
+        if jurisdiccion_manual != "Automática (IA)":
+            estado_inicial["jurisdicciones"] = [jurisdiccion_manual.lower()]
 
-            # Botones de descarga inmediatos para la respuesta recién generada
+        # Contenedor mutable para capturar el contexto y el tipo de tarea detectada durante el streaming
+        datos_ejecucion = {"contexto_rag": "", "tipo_tarea": ""}
+
+
+        def generar_streaming():
+            for output in app_grafo.stream(estado_inicial):
+                for nodo_nombre, valor in output.items():
+                    if isinstance(valor, dict):
+                        if "tipo_tarea" in valor and valor["tipo_tarea"]:
+                            datos_ejecucion["tipo_tarea"] = valor["tipo_tarea"]
+                        if "contexto_rag" in valor and valor["contexto_rag"]:
+                            datos_ejecucion["contexto_rag"] = valor["contexto_rag"]
+                        if "respuesta_final" in valor and valor["respuesta_final"]:
+                            yield valor["respuesta_final"]
+
+
+        # Streaming en vivo del resultado final tras el nodo verificador
+        respuesta_completa = st.write_stream(generar_streaming())
+
+        contexto_rag_utilizado = datos_ejecucion["contexto_rag"]
+        tipo_tarea_ejecutada = datos_ejecucion["tipo_tarea"]
+
+        # Bandera para saber si fue charla coloquial/saludo
+        es_conversacional = (tipo_tarea_ejecutada == "conversacional")
+
+        # Desplegable para ver el contexto RAG consultado solo si aplica
+        if contexto_rag_utilizado and not es_conversacional:
+            with st.expander("🔍 Ver Contexto RAG Recuperado"):
+                st.markdown(contexto_rag_utilizado)
+
+        # Botones de descarga inmediatos SOLO si no es conversacional
+        if not es_conversacional:
             col1, col2, _ = st.columns([1, 1, 3])
             with col1:
-                buffer_word = crear_documento_word(respuesta)
+                buffer_word = crear_documento_word(respuesta_completa)
                 st.download_button(
                     label="📥 Descargar Word (.docx)",
                     data=buffer_word,
@@ -227,7 +277,7 @@ if peticion := st.chat_input("Escribe tu instrucción legal aquí..."):
                     key="dl_word_nuevo"
                 )
             with col2:
-                buffer_pdf = crear_documento_pdf(respuesta)
+                buffer_pdf = crear_documento_pdf(respuesta_completa)
                 st.download_button(
                     label="📄 Descargar PDF (.pdf)",
                     data=buffer_pdf,
@@ -236,4 +286,9 @@ if peticion := st.chat_input("Escribe tu instrucción legal aquí..."):
                     key="dl_pdf_nuevo"
                 )
 
-            st.session_state.mensajes.append({"rol": "assistant", "contenido": respuesta})
+        st.session_state.mensajes.append({
+            "rol": "assistant",
+            "contenido": respuesta_completa,
+            "contexto_rag": contexto_rag_utilizado,
+            "es_conversacional": es_conversacional
+        })

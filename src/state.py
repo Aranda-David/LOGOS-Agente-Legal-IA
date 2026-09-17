@@ -1,11 +1,9 @@
-from typing import TypedDict, Annotated
-import operator
+from typing import TypedDict, Optional, List
 
 class State(TypedDict):
-    """
-    Estructura de estado global para el flujo de trabajo del agente legal.
-    """
     peticion_usuario: str
-    tipo_tarea: str  # 'auditoria', 'redaccion', 'comparacion', 'general'
-    historial_mensajes: Annotated[list, operator.add]
-    respuesta_final: str
+    texto_documento: Optional[str]
+    tipo_tarea: Optional[str]
+    jurisdicciones: List[str]
+    borrador_respuesta: Optional[str]
+    respuesta_final: Optional[str]

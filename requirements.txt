@@ -1,9 +1,25 @@
-streamlit
-langchain
-langgraph
-langchain-community
-pypdf
-python-docx
-reportlab
-striprtf
-python-dotenv
+# Frameworks de Agentes y Grafos
+langchain>=0.2.0
+langgraph>=0.1.0
+langchain-community>=0.2.0
+langchain-core>=0.2.0
+
+# Modelos, Embeddings, Vector Database y Deep Learning (Reranker)
+langchain-ollama>=0.1.0
+langchain-chroma>=0.1.0
+chromadb>=0.5.0
+rank-bm25>=0.2.2
+sentence-transformers>=2.2.0
+torch>=2.0.0
+transformers>=4.30.0
+
+# Procesamiento de Documentos y Formatos
+pypdf>=4.0.0
+python-docx>=1.1.0
+reportlab>=4.0.0
+striprtf>=1.5.0
+
+# Interfaz de Usuario y Entorno
+streamlit>=1.35.0
+python-dotenv>=1.0.0
+pydantic>=2.7.0
