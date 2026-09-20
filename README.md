@@ -108,3 +108,5 @@ LOGOS-Agente-Legal-IA/
 ├── requirements.txt    # Dependencias del proyecto
 └── README.md           # Documentación del repositorio
 ```
+### Licencia MIT
+Copyright (c) 2026 David Aranda
